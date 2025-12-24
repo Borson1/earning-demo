@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earning App Demo</title>
+
+<style>
+:root{
+  --bg:#020617;
+  --card:rgba(255,255,255,.06);
+  --text:#e5e7eb;
+  --accent:#38bdf8;
+}
+
+body{
+  margin:0;
+  font-family:Poppins,system-ui,sans-serif;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364,#020617);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.hidden{display:none}
+
+.app{
+  max-width:420px;
+  margin:auto;
+  padding:18px;
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.user{
+  font-size:15px;
+  font-weight:600;
+}
+
+.coin{
+  background:#000;
+  padding:6px 14px;
+  border-radius:20px;
+  font-weight:700;
+  font-size:15px;
+  box-shadow:0 0 12px var(--accent);
+}
+
+/* GRID CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:22px 14px;
+  text-align:center;
+  cursor:pointer;
+  border:1px solid rgba(56,189,248,.18);
+  box-shadow:0 0 14px rgba(56,189,248,.2);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 24px var(--accent);
+}
+
+.card:active{transform:scale(.96)}
+
+.icon{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.title{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:3px;
+  background:linear-gradient(to right,#38bdf8,#818cf8,#c084fc);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.sub{
+  font-size:12px;
+  opacity:.7;
+}
+
+/* BUTTONS */
+button{
+  background:linear-gradient(90deg,#38bdf8,#818cf8,#c084fc);
+  border:none;
+  padding:15px;
+  width:100%;
+  border-radius:14px;
+  color:#000;
+  font-weight:700;
+  margin-top:16px;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 0 18px var(--accent);
+  animation:btnPulse 1.8s infinite alternate;
+}
+
+@keyframes btnPulse{
+  0%{filter:brightness(1)}
+  100%{filter:brightness(1.4)}
+}
+
+/* SCREEN HEADLINE */
+h2{
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  background:linear-gradient(to right,#38bdf8,#c084fc,#818cf8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:16px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  font-size:18px;
+  font-weight:800;
+  padding:24px 0;
+  margin-top:26px;
+  letter-spacing:1.4px;
+  background:linear-gradient(to right,#38bdf8,#818cf8,#c084fc);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div class="app" id="home">
+  <div class="header">
+    <div class="user">👤 Guest User</div>
+    <div class="coin">🪙 <span id="coins">0</span></div>
+  </div>
+
+  <h2>Earn Coins Hub</h2>
+
+  <div class="grid">
+    <div class="card" onclick="openScreen('tasks')">
+      <div class="icon">📋</div>
+      <div class="title">Tasks</div>
+      <div class="sub">Complete tasks & earn coins</div>
+    </div>
+
+    <div class="card" onclick="openScreen('stay')">
+      <div class="icon">⏱</div>
+      <div class="title">Stay & Earn</div>
+      <div class="sub">Earn coins by watching timer</div>
+    </div>
+
+    <div class="card" onclick="openScreen('refer')">
+      <div class="icon">👥</div>
+      <div class="title">Refer & Earn</div>
+      <div class="sub">Share link & earn rewards</div>
+    </div>
+
+    <div class="card" onclick="openScreen('withdraw')">
+      <div class="icon">💳</div>
+      <div class="title">Withdraw</div>
+      <div class="sub">100+ coins required</div>
+    </div>
+  </div>
+
+  <button onclick="openModal('info')">ℹ App Info</button>
+  <button onclick="openModal('more')">☰ More Tools</button>
+
+  <div style="height:160px"></div> <!-- empty space removed by spacer -->
+</div>
+
+<!-- TASKS SCREEN -->
+<div class="app hidden" id="tasks">
+  <button class="back" onclick="goHome()">← Back</button>
+  <h2>Tasks Center</h2>
+
+  <div class="grid">
+    <div class="card"><div class="icon">📱</div><div class="title">Install App</div><p>Reward: 10 coins</p></div>
+    <div class="card"><div class="icon">💬</div><div class="title">Join Telegram</div><p>Reward: 5 coins</p></div>
+  </div>
+
+  <div style="height:180px"></div>
+</div>
+
+<!-- STAY & EARN SCREEN -->
+<div class="app hidden" id="stay">
+  <button onclick="goHome()">← Back</button>
+  <h2>Stay & Earn</h2>
+  <p style="text-align:center;opacity:.8;font-size:14px">Watch timer to earn coins</p>
+  <h1 id="timer" style="text-align:center;font-size:46px;font-weight:800;margin:18px 0;background:linear-gradient(to right,#38bdf8,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent">00:00</h1>
+  <button onclick="startTimer()">Start Earning</button>
+
+  <div style="height:220px"></div>
+</div>
+
+<!-- REFER SCREEN -->
+<div class="app hidden" id="refer">
+  <button onclick="goHome()">← Back</button>
+  <h2>Referral Center</h2>
+  <div class="card"><div class="icon">🔗</div><div class="title">Your Referral Link</div><p>Share & earn 2 referrals = 4 coins</p></div>
+  <button onclick="addCoins(4)">Simulate Reward</button>
+  <div style="height:240px"></div>
+</div>
+
+<!-- WITHDRAW SCREEN -->
+<div class="app hidden" id="withdraw">
+  <button onclick="goHome()">← Back</button>
+  <h2>Withdraw Center</h2>
+  <div class="card"><div class="icon">💰</div><div class="title">Minimum: 100 coins</div><p>Status: Pending → Approval</p></div>
+  <button onclick="checkWithdraw()">Check Withdraw</button>
+  <div style="height:260px"></div>
+</div>
+
+<!-- MODALS -->
+<div class="modal hidden" id="info-modal">
+  <div class="container">
+    <h3>About App</h3>
+    <p>This is a copyright-free earning UI demo.</p>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<div class="modal hidden" id="more-modal">
+  <div class="container">
+    <h3>More Features</h3>
+    <ul><li>Daily Reward</li><li>Spin Wheel</li><li>Referral Bonus</li><li>Fast Withdraw UI</li></ul>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<footer>© 2026 - 2027 • BÓRẞÕÑ</footer>
+
+<script>
+function openScreen(id){
+  document.querySelectorAll('.app').forEach(a=>a.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function goHome(){
+  document.querySelectorAll('.app').forEach(a=>a.classList.add('hidden'));
+  document.getElementById('home').classList.remove('hidden');
+  clearInterval(timerInt);
+  timer.innerText="00:00";
+}
+
+let timerInt, sec=0;
+function startTimer(){
+  clearInterval(timerInt);
+  sec=0;
+  timerInt=setInterval(()=>{
+    sec++;
+    let m=String(Math.floor(sec/60)).padStart(2,'0');
+    let s=String(sec%60).padStart(2,'0');
+    timer.innerText=`${m}:${s}`;
+    if(sec%15===0) addCoins(1);
+  },1000);
+}
+
+function addCoins(c){
+  coins.innerText=+coins.innerText + c;
+}
+
+function checkWithdraw(){
+  alert(coins.innerText>=100?"Form Approved!":"Not enough coins");
+}
+
+function checkWithdraw(){
+  if(coins.innerText>=100){
+    alert("✔ Withdraw form submitted for approval!");
+  } else {
+    alert("❌ You need minimum 100 coins to withdraw.");
+  }
+}
+</script>
+
+</body>
+</html>
